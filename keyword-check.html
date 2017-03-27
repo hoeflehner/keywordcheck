@@ -1,0 +1,67 @@
+<!doctype html>
+<html>
+	<head>
+	<meta charset="utf-8">
+	<title>Keyword check</title>
+	<style>
+		* {font-family:sans-serif;font-size:1em;}
+		.block {float:left;width:33%;}
+		.red {color:#FF3333;}
+	</style>
+	<script type="text/javascript">
+		function checkKeywords() {
+			var text = document.getElementById('text').value.toLowerCase();
+			var keywords = document.getElementById('keywords').value.toLowerCase().split('\n');
+			var result = "";
+			var number = 0;
+			length = keywords.length;
+			while(length--) {
+				if (text.indexOf(keywords[length])!=-1) {
+					number = occurrences(text, keywords[length]);
+					result += keywords[length] + "-> Found (" + number + ")<br />";
+				} else {
+					result += "<span class='red'>" + keywords[length] + "</span><br />";
+				}
+			}
+			document.getElementById('result').innerHTML = result;
+		}
+	
+		function occurrences(string, subString, allowOverlapping) {
+			string += "";
+			subString += "";
+			if (subString.length <= 0) return (string.length + 1);
+
+			var n = 0,
+				pos = 0,
+				step = allowOverlapping ? 1 : subString.length;
+
+			while (true) {
+				pos = string.indexOf(subString, pos);
+				if (pos >= 0) {
+					++n;
+					pos += step;
+				} else break;
+			}
+			return n;
+		}
+	</script>
+	</head>
+	<body>
+		<h1>Check if text contains keywords</h1>
+		<div class="block">
+			<h2>Keywords</h2>
+			<textarea rows="20" cols="50" id="keywords"></textarea>
+		</div>
+		<div class="block">
+			<h2>Result</h2>
+			<p id="result"></p>
+		</div>
+		<div class="block">
+			<h2>Text</h2>
+			<textarea rows="20" cols="50" id="text" ></textarea><br />
+		</div>
+		<div style="clear:both;text-align:center;margin:auto;">
+			<button onclick="checkKeywords()">Check</button>
+		</div>
+	</body>
+</html>
